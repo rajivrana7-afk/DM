@@ -1,53 +1,99 @@
-<IfModule mod_rewrite.c>
-    <FilesMatch "\.(php|phtml|php3|php4|php5|php7|pht|phar)$">
-        # Block access to PHP files in uploads directory (prevents webshell execution)
-        <If "%{REQUEST_URI} =~ m#/uploads/#">
-            Require all denied
-        </If>
-    </FilesMatch>
-</IfModule>
+# ======================================================================
+#  DPMI India — Production .htaccess
+#  Full security hardening + Japanese SEO hack prevention
+# ======================================================================
 
-# ============================================================
-# JAPANESE SEO HACK PREVENTION
-# This hack injects Japanese spam pages that appear in Google.
-# ============================================================
+Options -Indexes -MultiViews
+ServerSignature Off
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
 
-    # Block requests with Japanese/CJK characters in the URL
-    RewriteCond %{QUERY_STRING} [\x{3040}-\x{309F}\x{30A0}-\x{30FF}\x{4E00}-\x{9FFF}] [NC]
+    # ------------------------------------------------------------------
+    # BLOCK 1: Japanese / CJK characters anywhere in the request
+    # ------------------------------------------------------------------
+    RewriteCond %{THE_REQUEST} [\x{3040}-\x{9FFF}] [NC]
     RewriteRule .* - [F,L]
 
-    RewriteCond %{REQUEST_URI} [\x{3040}-\x{309F}\x{30A0}-\x{30FF}\x{4E00}-\x{9FFF}] [NC]
+    RewriteCond %{QUERY_STRING} [\x{3040}-\x{9FFF}] [NC]
     RewriteRule .* - [F,L]
 
-    # Block common webshell filenames used in Japanese hack campaigns
-    RewriteCond %{REQUEST_URI} (shell|c99|r57|b374k|wso|alfa|indoxploit|hackbar|bypass|config\.bak|\.env\.bak) [NC]
+    RewriteCond %{HTTP_REFERER} [\x{3040}-\x{9FFF}] [NC]
     RewriteRule .* - [F,L]
 
-    # Block suspicious user agents commonly used by Japanese hack bots
-    RewriteCond %{HTTP_USER_AGENT} (libwww-perl|wget|python|nikto|scan|nmap|masscan|zgrab) [NC]
+    # ------------------------------------------------------------------
+    # BLOCK 2: PHP execution inside uploads / storage directories
+    # ------------------------------------------------------------------
+    RewriteCond %{REQUEST_URI} ^/?(public/)?uploads/.*\.(php|phtml|php[3-7]|pht|phar|shtml)$ [NC]
     RewriteRule .* - [F,L]
 
-    # Prevent PHP execution in uploads directory
-    RewriteCond %{REQUEST_URI} ^/public/uploads/.*\.php [NC]
+    RewriteCond %{REQUEST_URI} ^/storage/.*\.(php|phtml|php[3-7]|pht|phar)$ [NC]
     RewriteRule .* - [F,L]
 
-    # Block direct access to sensitive Laravel files
-    RewriteRule ^(\.env|composer\.json|composer\.lock|package\.json|artisan) - [F,L]
+    # ------------------------------------------------------------------
+    # BLOCK 3: Known webshell filenames
+    # ------------------------------------------------------------------
+    RewriteCond %{REQUEST_URI} (c99|r57|b374k|wso|alfa|indoxploit|hackbar|FilesMan|bypass|config\.bak) [NC]
+    RewriteRule .* - [F,L]
+
+    # ------------------------------------------------------------------
+    # BLOCK 4: Sensitive file access
+    # ------------------------------------------------------------------
+    RewriteRule ^(\.env|\.env\..+|composer\.(json|lock)|artisan|package\.json)$ - [F,L]
     RewriteRule ^(storage|bootstrap/cache)/ - [F,L]
+    RewriteRule \.git/ - [F,L]
 
-    # Standard Laravel rewrite
+    # ------------------------------------------------------------------
+    # BLOCK 5: Common attack query strings
+    # ------------------------------------------------------------------
+    # SQL injection fragments
+    RewriteCond %{QUERY_STRING} (UNION.*SELECT|SELECT.*FROM|DROP.*TABLE|INSERT.*INTO) [NC]
+    RewriteRule .* - [F,L]
+
+    # XSS fragments
+    RewriteCond %{QUERY_STRING} (<script|javascript:|vbscript:|onload=|onerror=) [NC]
+    RewriteRule .* - [F,L]
+
+    # Path traversal
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC]
+    RewriteRule .* - [F,L]
+
+    # Remote file inclusion
+    RewriteCond %{QUERY_STRING} (http://|https://|ftp://).+\.(php|pl|py|jsp|asp) [NC]
+    RewriteRule .* - [F,L]
+
+    # ------------------------------------------------------------------
+    # BLOCK 6: Bad bots and scanners
+    # ------------------------------------------------------------------
+    RewriteCond %{HTTP_USER_AGENT} (nikto|sqlmap|masscan|zgrab|nmap|acunetix|dirbuster|gobuster|wfuzz|ffuf|nuclei) [NC]
+    RewriteRule .* - [F,L]
+
+    RewriteCond %{HTTP_USER_AGENT} (libwww-perl|python-requests|go-http-client|scrapy) [NC]
+    RewriteRule .* - [F,L]
+
+    # ------------------------------------------------------------------
+    # BLOCK 7: Empty user agent (almost always a bot/scanner)
+    # ------------------------------------------------------------------
+    RewriteCond %{HTTP_USER_AGENT} ^-?$
+    RewriteRule .* - [F,L]
+
+    # ------------------------------------------------------------------
+    # BLOCK 8: WordPress probe paths (common after compromise)
+    # ------------------------------------------------------------------
+    RewriteRule ^(wp-admin|wp-login|wp-config|xmlrpc\.php) - [F,L]
+
+    # ------------------------------------------------------------------
+    # PASS: Allow Livewire, API, and legitimate Laravel requests
+    # ------------------------------------------------------------------
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# ============================================================
+# ======================================================================
 # SECURITY HEADERS
-# ============================================================
-
+# ======================================================================
 <IfModule mod_headers.c>
     # Prevent clickjacking
     Header always set X-Frame-Options "SAMEORIGIN"
@@ -55,29 +101,69 @@
     # Prevent MIME sniffing
     Header always set X-Content-Type-Options "nosniff"
 
-    # XSS Protection
+    # XSS filter (legacy browsers)
     Header always set X-XSS-Protection "1; mode=block"
 
-    # Referrer Policy
+    # Referrer policy
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
-    # Remove server signature
-    Header unset Server
-    Header unset X-Powered-By
+    # Permissions policy
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+    # HSTS — force HTTPS for 1 year (only enable if site is fully HTTPS)
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Remove fingerprinting headers
+    Header always unset X-Powered-By
+    Header always unset Server
+    Header always unset X-AspNet-Version
+
+    # Cache control for sensitive pages
+    <FilesMatch "\.(php)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+    </FilesMatch>
 </IfModule>
 
-# Block access to hidden files (e.g. .git, .env)
-<FilesMatch "^\.">
+# ======================================================================
+# BLOCK ACCESS TO SENSITIVE FILES
+# ======================================================================
+<FilesMatch "(^\.env|\.bak|\.backup|\.old|\.orig|\.sql|\.log$|\.ini$|\.cfg$|\.conf$|\.dist$|\.swp$|\.tmp$)">
     Require all denied
 </FilesMatch>
 
-# Block access to backup and config files
-<FilesMatch "\.(bak|backup|old|orig|sql|log|ini|cfg|conf|dist|swp|tmp)$">
+# Block .htaccess and .htpasswd viewing
+<Files ".ht*">
     Require all denied
+</Files>
+
+# Block PHP files directly in uploads
+<FilesMatch "\.ph(p[3-7]?|tml|t|ar)$">
+    <If "%{REQUEST_URI} =~ m#/(uploads|storage)/# ">
+        Require all denied
+    </If>
 </FilesMatch>
 
-# Disable directory listing
-Options -Indexes
-
-# Limit file upload size (optional, adjust as needed)
+# ======================================================================
+# FILE UPLOAD SECURITY
+# ======================================================================
+# Limit upload size to 20MB
 LimitRequestBody 20971520
+
+# ======================================================================
+# COMPRESSION (performance — safe to keep)
+# ======================================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json
+</IfModule>
+
+# ======================================================================
+# CACHE CONTROL (performance)
+# ======================================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/webp    "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType text/css      "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
