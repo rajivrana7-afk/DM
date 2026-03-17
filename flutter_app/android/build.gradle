@@ -6,7 +6,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
+        // AGP 7.4.2 is the last version fully compatible with Kotlin 1.9.10.
+        // AGP 8.x removed the BaseVariant API that Kotlin 1.9.x depends on.
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.4.1'
     }
