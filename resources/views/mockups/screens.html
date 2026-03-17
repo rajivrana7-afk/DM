@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dazzle Drys – Screen Mockups</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a1a2e; font-family: 'Segoe UI', sans-serif; padding: 40px 20px; }
+  h1 { color: white; text-align: center; margin-bottom: 8px; font-size: 2rem; }
+  .subtitle { color: #aaa; text-align: center; margin-bottom: 40px; }
+
+  .screens-grid {
+    display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
+  }
+  .screen-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .screen-label { color: #ccc; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* Phone frame */
+  .phone {
+    width: 300px; height: 620px;
+    background: #1a1a1a;
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 0 0 2px #333;
+    position: relative;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 18px; left: 50%; transform: translateX(-50%);
+    width: 80px; height: 6px;
+    background: #333; border-radius: 3px; z-index: 10;
+  }
+  .screen {
+    width: 100%; height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+    background: #f5f5f5;
+  }
+
+  /* ─── SPLASH ─────────────────────────────────────────── */
+  .splash {
+    background: linear-gradient(160deg, #1565C0 0%, #0D47A1 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  }
+  .splash .logo-box {
+    width: 90px; height: 90px; background: white; border-radius: 22px;
+    display: flex; align-items: center; justify-content: center; font-size: 48px;
+  }
+  .splash h2 { color: white; font-size: 26px; font-weight: 800; }
+  .splash p  { color: rgba(255,255,255,0.7); font-size: 14px; }
+  .splash .spinner {
+    width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-top: 24px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── STATUS BAR ────────────────────────────────────── */
+  .status-bar {
+    height: 28px; background: inherit;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; font-size: 11px; font-weight: 600;
+  }
+  .status-bar.dark { background: #1565C0; color: white; }
+  .status-bar.light { background: white; color: #333; border-bottom: 1px solid #eee; }
+
+  /* ─── APP BAR ─────────────────────────────────────── */
+  .appbar {
+    height: 52px; background: #1565C0;
+    display: flex; align-items: center; padding: 0 16px; gap: 10px;
+    color: white; font-size: 16px; font-weight: 700;
+  }
+  .appbar .back { font-size: 18px; cursor: pointer; }
+  .appbar.teal { background: #00796B; }
+
+  /* ─── LOGIN ──────────────────────────────────────── */
+  .login-body {
+    flex: 1; display: flex; flex-direction: column; padding: 24px 20px;
+    background: #f5f5f5; overflow: hidden;
+  }
+  .logo-mini {
+    display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 32px;
+  }
+  .logo-mini .icon { width: 64px; height: 64px; background: #1565C0; border-radius: 16px; font-size: 32px; display: flex; align-items: center; justify-content: center; }
+  .logo-mini h3 { color: #1565C0; font-size: 22px; font-weight: 800; }
+  .logo-mini small { color: #888; font-size: 13px; }
+  .field { margin-bottom: 16px; }
+  .field label { font-size: 12px; color: #555; font-weight: 600; margin-bottom: 4px; display: block; }
+  .field .inp {
+    height: 46px; background: white; border: 1.5px solid #ddd; border-radius: 10px;
+    display: flex; align-items: center; padding: 0 14px; gap: 10px; font-size: 14px; color: #888;
+  }
+  .btn-primary {
+    height: 50px; background: #1565C0; color: white; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;
+    margin-top: 4px;
+  }
+  .hint { color: #aaa; font-size: 12px; text-align: center; margin-top: 16px; }
+
+  /* ─── OTP ─────────────────────────────────────── */
+  .otp-wrap { display: flex; justify-content: center; gap: 8px; margin: 24px 0; }
+  .otp-box {
+    width: 38px; height: 46px; border: 1.5px solid #ddd; border-radius: 10px; background: white;
+    display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;
+  }
+  .otp-box.filled { border-color: #1565C0; color: #1565C0; }
+
+  /* ─── DISCOVERY ───────────────────────────────── */
+  .search-bar {
+    background: #1565C0; padding: 8px 14px 14px;
+  }
+  .search-inp {
+    height: 40px; background: white; border-radius: 10px;
+    display: flex; align-items: center; padding: 0 12px; gap: 8px; color: #888; font-size: 13px;
+  }
+  .tab-bar {
+    display: flex; background: #1565C0; border-bottom: 2px solid rgba(255,255,255,0.2);
+  }
+  .tab-item {
+    flex: 1; height: 40px; display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.7); font-size: 12px; gap: 5px;
+  }
+  .tab-item.active { color: white; border-bottom: 2px solid white; }
+  .store-list { padding: 12px; overflow: hidden; }
+  .store-card-m {
+    background: white; border-radius: 12px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .store-icon {
+    width: 50px; height: 50px; background: #E3F2FD; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+  }
+  .store-info { flex: 1; }
+  .store-name { font-weight: 700; font-size: 14px; color: #222; }
+  .store-addr { font-size: 12px; color: #888; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+  .badge-open { display: inline-block; background: #E8F5E9; color: #2E7D32; border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700; margin-top: 5px; }
+  .badge-closed { display: inline-block; background: #ECEFF1; color: #546E7A; border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700; margin-top: 5px; }
+  .dist { font-size: 11px; color: #aaa; margin-left: 6px; }
+
+  /* ─── STORE DETAIL ────────────────────────────── */
+  .detail-header {
+    background: #1565C0; padding: 12px 14px 16px;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .detail-logo {
+    width: 56px; height: 56px; background: white; border-radius: 12px;
+    font-size: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .detail-info { flex: 1; }
+  .detail-info h3 { color: white; font-size: 15px; font-weight: 800; }
+  .detail-info p { color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 3px; }
+  .pricing-cat { font-size: 12px; font-weight: 700; color: #555; padding: 8px 14px 4px; }
+  .pricing-row {
+    display: flex; align-items: center; padding: 8px 14px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .pricing-row .name { flex: 1; font-size: 13px; font-weight: 500; }
+  .pricing-row .price { color: #888; font-size: 12px; margin-right: 10px; }
+  .qty-ctrl { display: flex; align-items: center; gap: 6px; }
+  .qty-btn { width: 26px; height: 26px; border-radius: 50%; background: #E3F2FD; color: #1565C0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
+  .qty-num { font-weight: 700; font-size: 14px; color: #1565C0; width: 20px; text-align: center; }
+  .book-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: white; padding: 10px 14px;
+    display: flex; align-items: center; border-top: 1px solid #eee;
+    border-radius: 0 0 30px 30px;
+  }
+  .book-bar .total-label { font-size: 11px; color: #888; }
+  .book-bar .total-amount { font-size: 18px; font-weight: 800; color: #1565C0; }
+  .book-bar .btn-book {
+    margin-left: auto; background: #1565C0; color: white; border-radius: 10px;
+    padding: 10px 18px; font-size: 13px; font-weight: 700;
+  }
+
+  /* ─── BOOKING ─────────────────────────────────── */
+  .section-title { font-size: 13px; font-weight: 700; color: #333; padding: 10px 14px 6px; }
+  .date-strip { display: flex; gap: 8px; padding: 0 14px 10px; overflow: hidden; }
+  .date-chip {
+    min-width: 48px; height: 56px; border-radius: 12px; background: white;
+    border: 1.5px solid #ddd; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; font-size: 11px; color: #888;
+  }
+  .date-chip.sel { background: #1565C0; border-color: #1565C0; color: white; }
+  .date-chip .day { font-size: 10px; opacity: 0.8; }
+  .date-chip .num { font-size: 18px; font-weight: 800; }
+  .slots-wrap { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 14px 10px; }
+  .slot-chip {
+    padding: 8px 14px; border-radius: 20px; border: 1.5px solid #ddd;
+    background: white; font-size: 12px; font-weight: 600; color: #555;
+  }
+  .slot-chip.sel { background: #1565C0; border-color: #1565C0; color: white; }
+  .svc-row { display: flex; gap: 8px; padding: 0 14px 10px; }
+  .svc-card {
+    flex: 1; border: 1.5px solid #ddd; border-radius: 12px; background: white;
+    padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-size: 11px; color: #555; text-align: center;
+  }
+  .svc-card.sel { border-color: #1565C0; background: #E3F2FD; color: #1565C0; }
+  .svc-card .svc-icon { font-size: 22px; }
+  .svc-card .svc-name { font-weight: 700; }
+  .est-bar {
+    margin: 4px 14px; background: #E3F2FD; border-radius: 10px; padding: 10px 14px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .est-bar .label { font-size: 12px; color: #555; font-weight: 600; }
+  .est-bar .amount { font-size: 20px; font-weight: 800; color: #1565C0; }
+
+  /* ─── CONFIRMATION ───────────────────────────── */
+  .conf-body { display: flex; flex-direction: column; align-items: center; padding: 24px 20px; }
+  .conf-icon { width: 90px; height: 90px; background: #E8F5E9; border-radius: 50%; font-size: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .conf-title { font-size: 22px; font-weight: 800; color: #222; margin-bottom: 6px; }
+  .conf-sub { color: #888; font-size: 13px; text-align: center; margin-bottom: 20px; }
+  .conf-card { background: white; border-radius: 12px; padding: 14px 16px; width: 100%; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .conf-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f5f5f5; }
+  .conf-row:last-child { border-bottom: none; }
+  .conf-row .lbl { font-size: 12px; color: #888; }
+  .conf-row .val { font-size: 12px; font-weight: 600; color: #333; }
+  .info-box { background: #FFF9C4; border-radius: 10px; padding: 10px 12px; width: 100%; display: flex; gap: 8px; align-items: flex-start; }
+  .info-box p { font-size: 11px; color: #555; line-height: 1.4; }
+
+  /* ─── MY BOOKINGS ─────────────────────────────── */
+  .booking-card-m {
+    background: white; border-radius: 12px; margin: 0 12px 10px; padding: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .bk-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .bk-num { font-size: 14px; font-weight: 800; color: #222; }
+  .badge-confirmed { background: #E8F5E9; color: #2E7D32; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700; }
+  .badge-pending   { background: #FFF9C4; color: #F57F17; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700; }
+  .badge-completed { background: #ECEFF1; color: #546E7A; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700; }
+  .bk-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666; margin-bottom: 4px; }
+  .bk-amount { font-size: 16px; font-weight: 800; color: #1565C0; margin-left: auto; }
+
+  /* ─── ADMIN DASHBOARD ─────────────────────────── */
+  .admin-screen { background: #f5f5f5; display: flex; flex-direction: column; }
+  .admin-sidebar-mini { background: #1565C0; }
+  .admin-appbar { height: 52px; background: #1565C0; display: flex; align-items: center; padding: 0 16px; color: white; font-weight: 700; font-size: 15px; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
+  .stat-block {
+    background: white; border-radius: 10px; padding: 12px;
+    border-left: 4px solid #1565C0;
+  }
+  .stat-block .s-label { font-size: 10px; color: #888; font-weight: 600; }
+  .stat-block .s-val { font-size: 22px; font-weight: 800; color: #1565C0; }
+  .stat-block .s-sub { font-size: 10px; color: #aaa; }
+  .table-mini { margin: 0 12px; background: white; border-radius: 10px; padding: 12px; }
+  .table-mini h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .table-row-m { display: flex; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
+  .table-row-m:last-child { border-bottom: none; }
+  .table-row-m .t-name { flex: 1; font-size: 12px; font-weight: 600; }
+  .table-row-m .t-owner { font-size: 11px; color: #888; flex: 1; }
+
+  /* ─── STORE OWNER PANEL ───────────────────────── */
+  .so-appbar { height: 52px; background: #00796B; display: flex; align-items: center; padding: 0 16px; color: white; font-weight: 700; font-size: 15px; }
+  .stat-block.teal { border-left-color: #00796B; }
+  .stat-block.teal .s-val { color: #00796B; }
+
+  /* ─── BOTTOM NAV ────────────────────────────────── */
+  .bottom-nav {
+    display: flex; background: white; border-top: 1px solid #eee;
+    height: 56px; flex-shrink: 0;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px; color: #aaa; font-size: 10px;
+  }
+  .nav-item.active { color: #1565C0; }
+  .nav-item .nav-icon { font-size: 20px; }
+  .nav-indicator { width: 32px; height: 4px; background: #E3F2FD; border-radius: 2px; margin-bottom: -6px; }
+
+  /* scrollable inner */
+  .scroll-inner { flex: 1; overflow: hidden; }
+</style>
+</head>
+<body>
+
+<h1>💧 Dazzle Drys</h1>
+<p class="subtitle">Mobile App & Admin Panel – Screen Mockups</p>
+
+<div class="screens-grid">
+
+  <!-- ── 1. SPLASH ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">1. Splash Screen</div>
+    <div class="phone">
+      <div class="screen">
+        <div class="splash" style="height:100%">
+          <div class="logo-box">💧</div>
+          <h2>Dazzle Drys</h2>
+          <p>Fresh. Clean. On Time.</p>
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2. LOGIN ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">2. Login (Email OTP)</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column">
+        <div class="status-bar dark">9:41 ▪ ▪ ▪ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="login-body">
+          <div class="logo-mini">
+            <div class="icon">💧</div>
+            <h3>Dazzle Drys</h3>
+            <small>Fresh. Clean. On Time.</small>
+          </div>
+          <div style="font-size:20px;font-weight:800;color:#222;margin-bottom:4px">Welcome!</div>
+          <div style="font-size:13px;color:#888;margin-bottom:20px">Enter your email to get started</div>
+          <div class="field">
+            <label>Email Address</label>
+            <div class="inp">✉️ <span>raj@example.com</span></div>
+          </div>
+          <div class="btn-primary">Send OTP</div>
+          <div class="hint">We'll send a 6-digit OTP to your email.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. OTP ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">3. OTP Verification</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column">
+        <div class="status-bar dark">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="appbar">← &nbsp; Verify OTP</div>
+        <div style="padding:24px 20px;background:#f5f5f5;flex:1">
+          <div style="font-size:20px;font-weight:800;color:#222;margin-bottom:6px">Check your email</div>
+          <div style="font-size:13px;color:#888;margin-bottom:28px">We sent a 6-digit OTP to<br><strong>raj@example.com</strong></div>
+          <div class="otp-wrap">
+            <div class="otp-box filled">5</div>
+            <div class="otp-box filled">8</div>
+            <div class="otp-box filled">3</div>
+            <div class="otp-box" style="border-color:#1565C0"></div>
+            <div class="otp-box"></div>
+            <div class="otp-box"></div>
+          </div>
+          <div class="btn-primary" style="margin-top:8px">Verify & Login</div>
+          <div style="text-align:center;margin-top:14px;color:#1565C0;font-size:13px;font-weight:600">Resend OTP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. STORE DISCOVERY ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">4. Store Discovery</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column">
+        <div class="status-bar dark">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="appbar">💧 Dazzle Drys</div>
+        <div class="tab-bar">
+          <div class="tab-item active">≡ List</div>
+          <div class="tab-item">🗺 Map</div>
+        </div>
+        <div class="search-bar">
+          <div class="search-inp">🔍 <span>Search laundry stores...</span></div>
+        </div>
+        <div style="flex:1;overflow:hidden">
+          <div style="padding:6px 12px 4px;font-size:11px;color:#888">📍 Showing stores near you</div>
+          <div class="store-card-m">
+            <div class="store-icon">🫧</div>
+            <div class="store-info">
+              <div class="store-name">Fresh Clean Laundry</div>
+              <div class="store-addr">14 MG Road, Connaught Place</div>
+              <span class="badge-open">Open</span>
+              <span class="dist">📍 1.2 km</span>
+            </div>
+            <span style="color:#ccc">›</span>
+          </div>
+          <div class="store-card-m">
+            <div class="store-icon">👔</div>
+            <div class="store-info">
+              <div class="store-name">Sparkle Wash</div>
+              <div class="store-addr">7 Rajouri Garden Market</div>
+              <span class="badge-open">Open</span>
+              <span class="dist">📍 2.8 km</span>
+            </div>
+            <span style="color:#ccc">›</span>
+          </div>
+          <div class="store-card-m">
+            <div class="store-icon">🧺</div>
+            <div class="store-info">
+              <div class="store-name">Linen Care Centre</div>
+              <div class="store-addr">Block C, Lajpat Nagar</div>
+              <span class="badge-closed">Closed</span>
+              <span class="dist">📍 4.1 km</span>
+            </div>
+            <span style="color:#ccc">›</span>
+          </div>
+          <div class="store-card-m">
+            <div class="store-icon">🫧</div>
+            <div class="store-info">
+              <div class="store-name">QuickWash Deluxe</div>
+              <div class="store-addr">Sector 18, Noida</div>
+              <span class="badge-open">Open</span>
+              <span class="dist">📍 5.5 km</span>
+            </div>
+            <span style="color:#ccc">›</span>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item active"><div class="nav-indicator"></div><div class="nav-icon">🔍</div>Discover</div>
+          <div class="nav-item"><div class="nav-icon">📅</div>Bookings</div>
+          <div class="nav-item"><div class="nav-icon">🔔</div>Alerts</div>
+          <div class="nav-item"><div class="nav-icon">👤</div>Profile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. STORE DETAIL / PRICING ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">5. Store Detail & Pricing</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column;position:relative">
+        <div class="status-bar dark">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="appbar">← Fresh Clean Laundry</div>
+        <div class="detail-header">
+          <div class="detail-logo">🫧</div>
+          <div class="detail-info">
+            <h3>Fresh Clean Laundry</h3>
+            <p>14 MG Road, Connaught Place, Delhi</p>
+            <div style="margin-top:5px;display:flex;gap:8px;align-items:center">
+              <span style="background:rgba(255,255,255,0.2);color:white;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Open</span>
+              <span style="color:rgba(255,255,255,0.7);font-size:11px">📞 +91 98765 43210</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;background:#1565C0;border-bottom:2px solid rgba(255,255,255,0.2)">
+          <div style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;border-bottom:2px solid white">Pricing</div>
+          <div style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:12px">Timings</div>
+          <div style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:12px">Info</div>
+        </div>
+        <div style="flex:1;overflow:hidden;background:white;padding-bottom:60px">
+          <div class="pricing-cat">SHIRTS & TOPS</div>
+          <div class="pricing-row">
+            <div class="name">Shirt</div>
+            <div class="price">₹25 / piece</div>
+            <div class="qty-ctrl">
+              <div class="qty-btn">+</div>
+            </div>
+          </div>
+          <div class="pricing-row">
+            <div class="name">T-Shirt</div>
+            <div class="price">₹20 / piece</div>
+            <div class="qty-ctrl">
+              <div class="qty-btn">−</div>
+              <div class="qty-num">2</div>
+              <div class="qty-btn">+</div>
+            </div>
+          </div>
+          <div class="pricing-cat">PANTS & TROUSERS</div>
+          <div class="pricing-row">
+            <div class="name">Trousers</div>
+            <div class="price">₹35 / piece</div>
+            <div class="qty-ctrl">
+              <div class="qty-btn">−</div>
+              <div class="qty-num">1</div>
+              <div class="qty-btn">+</div>
+            </div>
+          </div>
+          <div class="pricing-cat">ETHNIC WEAR</div>
+          <div class="pricing-row">
+            <div class="name">Saree</div>
+            <div class="price">₹80 / piece</div>
+            <div class="qty-ctrl"><div class="qty-btn">+</div></div>
+          </div>
+          <div class="pricing-row">
+            <div class="name">Blanket</div>
+            <div class="price">₹120 / piece</div>
+            <div class="qty-ctrl"><div class="qty-btn">+</div></div>
+          </div>
+        </div>
+        <div class="book-bar">
+          <div>
+            <div class="total-label">Estimated Total</div>
+            <div class="total-amount">₹75</div>
+          </div>
+          <div class="btn-book">Book Now</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6. BOOKING SCREEN ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">6. Book a Slot</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column">
+        <div class="status-bar dark">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="appbar">← Book Service</div>
+        <div style="flex:1;overflow:hidden;background:#f5f5f5">
+          <div style="margin:10px 12px 8px;background:white;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06)">
+            <div style="font-size:26px">🫧</div>
+            <div><div style="font-weight:700;font-size:13px">Fresh Clean Laundry</div><div style="font-size:11px;color:#888">14 MG Road, Delhi</div></div>
+          </div>
+
+          <div class="section-title">Select Date</div>
+          <div class="date-strip">
+            <div class="date-chip"><div class="day">MON</div><div class="num">17</div></div>
+            <div class="date-chip sel"><div class="day">TUE</div><div class="num">18</div></div>
+            <div class="date-chip"><div class="day">WED</div><div class="num">19</div></div>
+            <div class="date-chip"><div class="day">THU</div><div class="num">20</div></div>
+            <div class="date-chip"><div class="day">FRI</div><div class="num">21</div></div>
+          </div>
+
+          <div class="section-title">Available Slots</div>
+          <div class="slots-wrap">
+            <div class="slot-chip">09:00</div>
+            <div class="slot-chip sel">10:30</div>
+            <div class="slot-chip">12:00</div>
+            <div class="slot-chip">14:00</div>
+            <div class="slot-chip">16:30</div>
+          </div>
+
+          <div class="section-title">Service Type</div>
+          <div class="svc-row">
+            <div class="svc-card sel">
+              <div class="svc-icon">🏪</div>
+              <div class="svc-name">Visit Store</div>
+              <div style="font-size:10px">Drop at store</div>
+            </div>
+            <div class="svc-card">
+              <div class="svc-icon">🛵</div>
+              <div class="svc-name">Pickup</div>
+              <div style="font-size:10px">We collect</div>
+            </div>
+          </div>
+
+          <div class="est-bar">
+            <span class="label">Estimated Total</span>
+            <span class="amount">₹75</span>
+          </div>
+
+          <div style="margin:8px 12px">
+            <div class="btn-primary" style="border-radius:12px;height:46px;font-size:14px">Confirm Booking</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 7. BOOKING CONFIRMATION ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">7. Booking Confirmed</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column;background:#f5f5f5">
+        <div class="status-bar light">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="conf-body">
+          <div style="height:20px"></div>
+          <div class="conf-icon">✅</div>
+          <div class="conf-title">Booking Confirmed!</div>
+          <div class="conf-sub">Your booking has been placed.<br>The store will confirm shortly.</div>
+          <div class="conf-card">
+            <div class="conf-row"><span class="lbl">Booking #</span><span class="val">DD5A8F3C</span></div>
+            <div class="conf-row"><span class="lbl">Store</span><span class="val">Fresh Clean Laundry</span></div>
+            <div class="conf-row"><span class="lbl">Date</span><span class="val">18 Mar 2026</span></div>
+            <div class="conf-row"><span class="lbl">Time</span><span class="val">10:30 AM</span></div>
+            <div class="conf-row"><span class="lbl">Service</span><span class="val">Store Visit</span></div>
+            <div class="conf-row"><span class="lbl">Est. Amount</span><span class="val" style="color:#1565C0;font-size:14px">₹75</span></div>
+            <div class="conf-row"><span class="lbl">Status</span><span style="background:#FFF9C4;color:#F57F17;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Pending</span></div>
+          </div>
+          <div class="info-box">
+            <span>ℹ️</span>
+            <p>Payment is collected at the store or during pickup. No online payment required.</p>
+          </div>
+          <div class="btn-primary" style="margin-top:16px;border-radius:12px;height:46px;font-size:14px;width:100%">Back to Home</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 8. MY BOOKINGS ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">8. My Bookings</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column">
+        <div class="status-bar dark">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="appbar">My Bookings</div>
+        <div style="flex:1;overflow:hidden;background:#f5f5f5;padding-top:12px">
+          <div class="booking-card-m">
+            <div class="bk-header">
+              <span class="bk-num">#DD5A8F3C</span>
+              <span class="badge-confirmed">CONFIRMED</span>
+            </div>
+            <div class="bk-row">🏪 Fresh Clean Laundry</div>
+            <div class="bk-row">📅 18 Mar &nbsp; 🕙 10:30 AM <span class="bk-amount">₹75</span></div>
+          </div>
+          <div class="booking-card-m">
+            <div class="bk-header">
+              <span class="bk-num">#DD2B9E11</span>
+              <span class="badge-pending">PENDING</span>
+            </div>
+            <div class="bk-row">🏪 Sparkle Wash</div>
+            <div class="bk-row">📅 20 Mar &nbsp; 🕑 2:00 PM <span class="bk-amount">₹140</span></div>
+            <div style="border-top:1px solid #f0f0f0;margin-top:8px;padding-top:8px;text-align:right;font-size:12px;color:#C62828;font-weight:600">Cancel Booking</div>
+          </div>
+          <div class="booking-card-m">
+            <div class="bk-header">
+              <span class="bk-num">#DD1A2B3C</span>
+              <span class="badge-completed">COMPLETED</span>
+            </div>
+            <div class="bk-row">🏪 Linen Care Centre</div>
+            <div class="bk-row">📅 10 Mar &nbsp; 🕚 11:00 AM <span class="bk-amount">₹200</span></div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><div class="nav-icon">🔍</div>Discover</div>
+          <div class="nav-item active"><div class="nav-indicator"></div><div class="nav-icon">📅</div>Bookings</div>
+          <div class="nav-item"><div class="nav-icon">🔔</div>Alerts</div>
+          <div class="nav-item"><div class="nav-icon">👤</div>Profile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 9. SUPER ADMIN DASHBOARD ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">9. Super Admin Dashboard</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column">
+        <div class="status-bar light">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="admin-appbar">🔧 Super Admin &nbsp; <span style="margin-left:auto;font-size:12px;font-weight:400;opacity:0.8">admin@dazzledrys.com</span></div>
+        <div style="flex:1;overflow:hidden;background:#f5f5f5">
+          <div style="padding:10px 12px 0;font-size:12px;font-weight:700;color:#555">PLATFORM OVERVIEW</div>
+          <div class="stat-grid">
+            <div class="stat-block"><div class="s-label">TOTAL STORES</div><div class="s-val">24</div><div class="s-sub">18 approved</div></div>
+            <div class="stat-block"><div class="s-label">PENDING STORES</div><div class="s-val" style="color:#F57F17">6</div><div class="s-sub">Awaiting approval</div></div>
+            <div class="stat-block"><div class="s-label">TOTAL USERS</div><div class="s-val">312</div><div class="s-sub">Registered</div></div>
+            <div class="stat-block"><div class="s-label">TODAY'S BOOKINGS</div><div class="s-val">47</div><div class="s-sub">Across all stores</div></div>
+          </div>
+          <div class="table-mini" style="margin-top:8px">
+            <h4>Recent Stores</h4>
+            <div class="table-row-m">
+              <span class="t-name">Fresh Clean Laundry</span>
+              <span class="t-owner">Raj Kumar</span>
+              <span style="background:#E8F5E9;color:#2E7D32;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Approved</span>
+            </div>
+            <div class="table-row-m">
+              <span class="t-name">Sparkle Wash</span>
+              <span class="t-owner">Priya Singh</span>
+              <span style="background:#FFF9C4;color:#F57F17;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Pending</span>
+            </div>
+            <div class="table-row-m">
+              <span class="t-name">QuickWash Deluxe</span>
+              <span class="t-owner">Amit Shah</span>
+              <span style="background:#FFF9C4;color:#F57F17;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">Pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 10. STORE OWNER PANEL ── -->
+  <div class="screen-wrap">
+    <div class="screen-label">10. Store Owner Dashboard</div>
+    <div class="phone">
+      <div class="screen" style="display:flex;flex-direction:column">
+        <div class="status-bar light">9:41 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ▐▐▐ ●</div>
+        <div class="so-appbar">🏪 Store Panel &nbsp; <span style="margin-left:auto;font-size:12px;font-weight:400;opacity:0.8">Raj Kumar</span></div>
+        <div style="flex:1;overflow:hidden;background:#f5f5f5">
+          <div style="margin:10px 12px 0;background:white;border-radius:10px;padding:12px 14px;box-shadow:0 2px 6px rgba(0,0,0,0.06)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-weight:700;font-size:14px">Fresh Clean Laundry</span>
+              <span style="background:#E8F5E9;color:#2E7D32;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Available</span>
+            </div>
+            <div style="font-size:12px;color:#888">14 MG Road, Connaught Place</div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <div style="background:#E0F2F1;color:#00796B;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:600">Edit Profile</div>
+              <div style="background:#f5f5f5;color:#555;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:600">Timings</div>
+              <div style="background:#f5f5f5;color:#555;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:600">Pricing</div>
+            </div>
+          </div>
+          <div style="padding:8px 12px 0;font-size:12px;font-weight:700;color:#555">TODAY'S OVERVIEW</div>
+          <div class="stat-grid">
+            <div class="stat-block teal"><div class="s-label">TOTAL BOOKINGS</div><div class="s-val">148</div></div>
+            <div class="stat-block teal"><div class="s-label">PENDING</div><div class="s-val" style="color:#F57F17">5</div></div>
+            <div class="stat-block teal"><div class="s-label">CONFIRMED</div><div class="s-val" style="color:#2E7D32">12</div></div>
+            <div class="stat-block teal"><div class="s-label">TODAY</div><div class="s-val">9</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center;color:#555;margin-top:50px;font-size:13px">
+  Dazzle Drys Platform — Built with Flutter (Android & iOS) + Laravel Backend<br>
+  <span style="color:#777">Open in browser to view all screen mockups</span>
+</div>
+
+</body>
+</html>
